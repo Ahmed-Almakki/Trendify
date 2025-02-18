@@ -7,7 +7,7 @@ from sqlalchemy import Integer, String, ForeignKey, Enum as SqlEnum
 from sqlalchemy.orm import Mapped, mapped_column
 
 
-class CategroyType(Enum):
+class CategoryType(Enum):
     """
     Enum class to define category for the Category
     """
@@ -28,9 +28,9 @@ class Category(db.Model):
     """
     Categroy Model represent the categroy (men - women - kids)
     """
-    __tablename__ = "Categroy"
+    __tablename__ = "Category"
     id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False, primary_key=True)
-    name: Mapped[CategroyType] = mapped_column(SqlEnum(CategroyType), nullable=False)
+    name: Mapped[CategoryType] = mapped_column(SqlEnum(CategoryType), nullable=False)
 
 
 class Clothing(db.Model):
@@ -43,6 +43,17 @@ class Clothing(db.Model):
     color: Mapped[str] = mapped_column(String(10), nullable=False)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
     image_url: Mapped[str] = mapped_column(String(10), nullable=False)
+
+    def to_dict(self):
+        return {'id': self.id,
+                'category_id': self.category_id,
+                'color': self.color,
+                'company': self.company,
+                'image_url': self.image_url
+                }
+
+    def __repr__(self):
+        return f"Cloth Brand is {self.company}"
 
 
 class Top(db.Model):

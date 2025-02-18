@@ -4,7 +4,7 @@ Render the Main pages Women, Men and Kids
 from flask import Blueprint, render_template, abort
 from jinja2 import TemplateNotFound
 
-bp = Blueprint('bp', __name__, template_folder="template", static_folder="static")
+bp = Blueprint('bp', __name__, template_folder="../template", static_folder="../static")
 
 
 @bp.route('/')
