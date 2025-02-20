@@ -52,6 +52,19 @@ class Clothing(db.Model):
                 'image_url': self.image_url
                 }
 
+    @classmethod
+    def filterSearch(cls, kwargs):
+        """
+        filtring the search
+        :param kwargs: query to filter on
+        :return: filtered search qurey
+        """
+        key, val = kwargs
+        print('inside the search method')
+        if hasattr(cls, key):
+            qury = cls.query.filter(getattr(cls, key) == val)
+        return qury
+
     def __repr__(self):
         return f"Cloth Brand is {self.company}"
 
@@ -65,6 +78,22 @@ class Top(db.Model):
     clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id))
     sleeve: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
+    def to_dict(self):
+        return {'id': self.id, 'colth_id': self.clothing_id, 'sleeve': self.sleeve}
+
+    @classmethod
+    def filterSearch(cls, kwargs):
+        """
+        filtring the search
+        :param kwargs: query to filter on
+        :return: filtered search qurey
+        """
+        key, val = kwargs
+        print('inside the search method')
+        if hasattr(cls, key):
+            qury = cls.query.filter(getattr(cls, key) == val)
+        return qury
+
 
 class Bottom(db.Model):
     """
@@ -74,3 +103,19 @@ class Bottom(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True)
     clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id))
     length: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
+
+    def to_dict(self):
+        return {'id': self.id, 'cloth_id': self.clothing_id, 'length': self.length}
+
+    @classmethod
+    def filterSearch(cls, kwargs):
+        """
+        filtring the search
+        :param kwargs: query to filter on
+        :return: filtered search qurey
+        """
+        key, val = kwargs
+        print('inside the search method')
+        if hasattr(cls, key):
+            qury = cls.query.filter(getattr(cls, key) == val)
+        return qury

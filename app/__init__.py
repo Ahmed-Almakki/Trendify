@@ -1,5 +1,5 @@
 from flask import Flask
-from app.routes.front_routes import bp
+
 from flask_sqlalchemy import SQLAlchemy
 from .Config import Config   # load the configuration you need
 from dotenv import load_dotenv  # load the enviromental variable
@@ -15,6 +15,7 @@ def create_app():
     db.init_app(app)                # configure sqlalchemy instance to work with Flask app
 
     from .routes.men import men
+    from app.routes.front_routes import bp
 
     app.register_blueprint(bp)
     app.register_blueprint(men)
