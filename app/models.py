@@ -11,17 +11,16 @@ class CategoryType(Enum):
     """
     Enum class to define category for the Category
     """
-    Men = "Men"
-    Women = "Women"
-    Kids = "Kids"
+    Men = "men"
+    Women = "women"
 
 
 class LengthTpe(Enum):
     """
     Enum class to define category for the Top and Bottom
     """
-    Long = "Long"
-    Short = "Short"
+    Long = "long"
+    Short = "short"
 
 
 class Category(db.Model):
@@ -30,7 +29,27 @@ class Category(db.Model):
     """
     __tablename__ = "Category"
     id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False, primary_key=True)
-    name: Mapped[CategoryType] = mapped_column(SqlEnum(CategoryType), nullable=False)
+    gender: Mapped[CategoryType] = mapped_column(SqlEnum(CategoryType), nullable=False)
+    gender_id: Mapped[int] = mapped_column(Integer)
+
+    def __init__(self, gender):
+        """
+        when Category class created the init revoke automatically and assign the gender and
+        revoke the function set_gender_id which well be assigned to gender id
+        :param gender: men or women
+        """
+        self.gender = gender
+        self.set_gender_id()
+
+    def set_gender_id(self):
+        """
+        set the gender id based on the gender type
+        """
+        # CategoryType it's the type of men or women look at Mapped[CategoryType]
+        if self.gender == CategoryType.Men:
+            self.gender_id = 1
+        else:
+            self.gender_id = 2
 
 
 class Clothing(db.Model):
@@ -38,11 +57,11 @@ class Clothing(db.Model):
     Clothing Model represent high level detail of the cloth
     """
     __tablename__ = "Clothing"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True)
-    category_id: Mapped[int] = mapped_column(Integer, ForeignKey(Category.id))
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True, autoincrement=True)
+    category_id: Mapped[int] = mapped_column(Integer, ForeignKey('Category.id'))
     color: Mapped[str] = mapped_column(String(10), nullable=False)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
-    image_url: Mapped[str] = mapped_column(String(10), nullable=False)
+    # image_url: Mapped[str] = mapped_column(String(10), nullable=False)
 
     def to_dict(self):
         return {'id': self.id,
@@ -59,10 +78,9 @@ class Clothing(db.Model):
         :param kwargs: query to filter on
         :return: filtered search qurey
         """
-        key, val = kwargs
-        print('inside the search method')
-        if hasattr(cls, key):
-            qury = cls.query.filter(getattr(cls, key) == val)
+        for key, val in kwargs:
+            if hasattr(cls, key):
+                qury = cls.query.filter(getattr(cls, key) == val)
         return qury
 
     def __repr__(self):
@@ -74,7 +92,7 @@ class Top(db.Model):
     Top Model reprenst more detail on the top clothes (T-shirts, dress, ertc..)
     """
     __tablename__ = "top_detail"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True, autoincrement=True)
     clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id))
     sleeve: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
@@ -88,10 +106,9 @@ class Top(db.Model):
         :param kwargs: query to filter on
         :return: filtered search qurey
         """
-        key, val = kwargs
-        print('inside the search method')
-        if hasattr(cls, key):
-            qury = cls.query.filter(getattr(cls, key) == val)
+        for key, val in kwargs:
+            if hasattr(cls, key):
+                qury = cls.query.filter(getattr(cls, key) == val)
         return qury
 
 
@@ -114,8 +131,7 @@ class Bottom(db.Model):
         :param kwargs: query to filter on
         :return: filtered search qurey
         """
-        key, val = kwargs
-        print('inside the search method')
-        if hasattr(cls, key):
-            qury = cls.query.filter(getattr(cls, key) == val)
+        for key, val in kwargs:
+            if hasattr(cls, key):
+                qury = cls.query.filter(getattr(cls, key) == val)
         return qury

@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request, render_template
-from ..utils.help import conectModel
 from ..models import Clothing, Top, Bottom
 
 men = Blueprint('Men', __name__, url_prefix='/api')
 Models = [Clothing, Top, Bottom]
+
+
 @men.route('/men')
 def product():
     """
@@ -21,17 +22,16 @@ def product():
             return render_template('index.html')
 
         validParameters = request.args.to_dict()
-        print(validParameters)
-        query = None
-        for Mchek in Models:
-            print('2 level above')
-            for ky, val in validParameters.items():
-                print('1 level aboce')
-                if hasattr(Mchek, ky):
-                    print('deep')
-                    query = Mchek.filterSearch((ky, val))
-                    print(query)
-        print("this is ", query)
+        query_results = []
+
+        for Model in Models:
+            query = Model.query
+
+            for key, value in validParameters.items():
+                if hasattr(Model, key):
+                    query = query.filter(getattr(Model, key) == value)
+            query_results.append(query.all())
+        print(query_results)
         return render_template('men.html')
 
 
