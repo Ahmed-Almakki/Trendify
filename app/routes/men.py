@@ -1,5 +1,10 @@
+"""
+routs belong to men products that client could use
+"""
+import json
 from flask import Blueprint, jsonify, request, render_template
 from ..models import Clothing, Top, Bottom
+from ..utils.helper import TopOrBottom, checkCorrectParameter
 
 men = Blueprint('Men', __name__, url_prefix='/api')
 Models = [Clothing, Top, Bottom]
@@ -12,33 +17,30 @@ def product():
     if there is a query search base on the query if not just search all men cloth
     :return: all product randomly
     """
+    from app import db
     try:
-        # cloth = Clothing.query
-        # top = Top.query
-        # bottom = Bottom
-        if len(request.args.to_dict()) == 0:
-            all_product = Clothing.filterSearch({'category_id': 1}).all()
-            # return jsonify([arg.to_dict for arg in all_product])
-            return render_template('index.html')
+        if checkCorrectParameter(list(request.get_json()), lst=["length", "sleeve", "color", "company", "gender"]):
 
-        validParameters = request.args.to_dict()
-        query_results = []
+            if len(request.get_json()) == 0:
 
-        for Model in Models:
-            query = Model.query
+                all_product = Clothing.query.all()
+                result = [arg.to_dict() for arg in all_product]
+                return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
 
-            for key, value in validParameters.items():
-                if hasattr(Model, key):
-                    query = query.filter(getattr(Model, key) == value)
-            query_results.append(query.all())
-        print(query_results)
-        return render_template('men.html')
+            holder = request.get_json()
+            if TopOrBottom(holder) == "top":
 
+                query = db.session.query(Clothing). \
+                    join(Top, Top.clothing_id == Clothing.id, isouter=True).filter(Top.sleeve.isnot(None)).all()
+                result = [arg.to_dict() for arg in query]
+                return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
 
-        # return jsonify([arg.to_dict() for arg in products])
+            query = db.session.query(Clothing). \
+                join(Bottom, Bottom.clothing_id == Clothing.id, isouter=True).filter(Bottom.length.isnot(None)).all()
+            result = [arg.to_dict() for arg in query]
+            return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
+
+        return jsonify({"error": "Wrong parameter name used for retrieving data"})
 
     except Exception as e:
-        print("Error in men all product routs", e)
-
-
-# @men.route('/men')
+        return jsonify({"error": f"Cannot retrieve data because of {e}"}), 400

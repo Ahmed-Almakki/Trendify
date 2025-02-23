@@ -1,3 +1,6 @@
+"""
+Admin route to delete create and update products to database
+"""
 from flask import Blueprint, request, render_template, jsonify
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
@@ -51,7 +54,7 @@ def updateCloth(cloth_id):
 
     if request.method == 'PUT':
         holder = list(request.form.to_dict().keys())
-        print(holder, len(holder), type(holder))
+
         if not request.form.to_dict().keys():
             return jsonify({"error": "Data Doesn't exists"}), 400
         try:
@@ -64,7 +67,7 @@ def updateCloth(cloth_id):
                 query = Bottom.update(cloth_id, **change)
                 if 'length' in change:
                     holder.remove('length')
-            if not checkCorrectParameter(holder):
+            if not checkCorrectParameter(holder, lst=["color", "company", "gender"]):
                 return jsonify({"error": "Wrong paramters Name (Clothing param)"})
             query = Clothing.update(cloth_id, **change)
             db.session.commit()

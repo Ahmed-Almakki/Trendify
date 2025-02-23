@@ -66,24 +66,24 @@ class Clothing(db.Model):
 
     def to_dict(self):
         return {'id': self.id,
-                'category_id': self.category_id,
+                'gender': self.gender,
                 'color': self.color,
-                'company': self.company,
-                'image_url': self.image_url
+                'company': self.company
+                # 'image_url': self.image_url
                 }
 
-    @classmethod
-    def filterSearch(cls, **kwargs):
-        """
-        filtring the search
-        :param kwargs: query to filter on
-        :return: filtered search qurey
-        """
-        query = cls.query
-        for key, val in kwargs.items():
-            if hasattr(cls, key):
-                query = query.filter(getattr(cls, key) == val)
-        return query
+    # @classmethod
+    # def filterSearch(cls, **kwargs):
+    #     """
+    #     filtring the search
+    #     :param kwargs: query to filter on
+    #     :return: filtered search qurey
+    #     """
+    #     query = cls.query
+    #     for key, val in kwargs.items():
+    #         if hasattr(cls, key):
+    #             query = query.filter(getattr(cls, key) == val)
+    #     return query
 
     @classmethod
     def update(cls, id, **kwargs):
