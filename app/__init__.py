@@ -21,7 +21,7 @@ def create_app():
     app.register_blueprint(men)
     app.register_blueprint(admin)
 
-    from .models import Clothing, Top, Bottom, Category
+    from .models import Clothing, Top, Bottom
     with app.app_context():
         db.create_all()
 

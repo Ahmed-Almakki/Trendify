@@ -1,33 +1,72 @@
-from flask import Blueprint, request, render_template
-from ..models import Clothing, Top, Bottom, Category
+from flask import Blueprint, request, render_template, jsonify
+from ..models import Clothing, Top, Bottom
+from ..utils.helper import checkCorrectParameter
 
 admin = Blueprint('Admin', __name__)
 
 
 @admin.route('/admin', methods=['POST'])
 def CU_op():
+    check = False
+
+    if 'company' not in request.form.to_dict().keys():
+        return jsonify({'error': "Company missing"}), 404
+    elif 'color' not in request.form.to_dict().keys():
+        return jsonify({'error': "Color is Missing"}), 404
+    elif 'gender' not in request.form.to_dict().keys():
+        return jsonify({'error': 'Gender is not Set'}), 404
+
+    else:
+        from app import db
+
+        color = request.form['color']
+        if request.form.get('sleeve'):
+            sleeve = request.form['sleeve']
+            check = True
+        if request.form.get('length'):
+            length = request.form['length']
+        company = request.form['company']
+        gender = request.form['gender']
+
+        try:
+
+            cloth = Clothing(color=color, company=company, gender=gender)
+            db.session.add(cloth)
+            db.session.commit()
+            if check:
+                top = Top(sleeve=sleeve, clothing_id=cloth.id)
+                db.session.add(top)
+            else:
+                bottom = Bottom(length=length, clothing_id=cloth.id)
+                db.session.add(bottom)
+            db.session.commit()
+            return render_template("admin.html")
+        except Exception as e:
+            return jsonify({'error': f'Cannot create Table because of {e}'}), 400
+
+
+@admin.route('/admin/<int:cloth_id>', methods=['PUT'])
+def updateCloth(cloth_id):
     from app import db
-    color = request.form['color']
-    sleeve = request.form['sleeve']
-    length = request.form['length']
-    company = request.form['company']
-    gender = request.form['gender']
-    category = Category(gender=gender)
-    db.session.add(category)
-    db.session.commit()
 
-    cloth = Clothing(color=color, company=company, category_id=category.id)
-    db.session.add(cloth)
-    db.session.commit()
-
-    top = Top(sleeve=sleeve, clothing_id=cloth.id)
-    bottom = Bottom(length=length, clothing_id=cloth.id)
-    db.session.add(top)
-    db.session.add(bottom)
-
-    db.session.commit()
-    return render_template("admin.html")
-
-# @admin.route('/admin/<int: cloth_id>', method=['PUT'])
-# def updateCloth(cloth_id):
-#     cloth_id = Clothing.query.get_or_404(cloth_id)
+    holder = list(request.form.to_dict().keys())
+    print(holder, len(holder), type(holder))
+    if not request.form.to_dict().keys():
+        return jsonify({"error": "Data Doesn't exists"}), 400
+    try:
+        change = request.form.to_dict()
+        if "sleeve" in change:
+            query = Top.update(cloth_id, **change)
+            if 'sleeve' in holder:
+                holder.remove('sleeve')
+        if "length" in change:
+            query = Bottom.update(cloth_id, **change)
+            if 'length' in change:
+                holder.remove('length')
+        if not checkCorrectParameter(holder):
+            return jsonify({"error": "Wrong paramters Name (Clothing param)"})
+        query = Clothing.update(cloth_id, **change)
+        db.session.commit()
+        return jsonify({"message": "updated successfully"})
+    except Exception as e:
+        return jsonify({"error": f"could not update due to {e}"}), 400
