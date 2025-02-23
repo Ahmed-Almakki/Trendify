@@ -116,7 +116,7 @@ class Top(db.Model):
     """
     __tablename__ = "top_detail"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True, autoincrement=True)
-    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id))
+    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
     sleeve: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
     def to_dict(self):
@@ -163,7 +163,7 @@ class Bottom(db.Model):
     """
     __tablename__ = "bottom_detail"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True)
-    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id))
+    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
     length: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
     def to_dict(self):
