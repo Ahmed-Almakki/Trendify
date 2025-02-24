@@ -56,6 +56,8 @@ def Wproduct():
 
             query = query.filter(*filter_list).all()
             result = [arg.to_dict() for arg in query]
+            if len(result) == 0:
+                return jsonify({"Warning": "No product found meeting the criteria"}), 404
             return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
 
         return jsonify({"error": "Wrong parameter name used for retrieving data"})
