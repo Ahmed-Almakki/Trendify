@@ -57,7 +57,7 @@ class Clothing(db.Model):
     Clothing Model represent high level detail of the cloth
     """
     __tablename__ = "Clothing"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     # category_id: Mapped[int] = mapped_column(Integer, nullable=False)
     color: Mapped[str] = mapped_column(String(10), nullable=False)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
@@ -115,7 +115,7 @@ class Top(db.Model):
     Top Model reprenst more detail on the top clothes (T-shirts, dress, ertc..)
     """
     __tablename__ = "top_detail"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
     sleeve: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
@@ -162,7 +162,7 @@ class Bottom(db.Model):
     Bottom Model represent more detail on the bottom part of the cloth (Jeans, shorts, etc...)
     """
     __tablename__ = "bottom_detail"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, unique=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
     length: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 

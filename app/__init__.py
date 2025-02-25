@@ -1,18 +1,25 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv  # load the enviromental variable
+from flask_migrate import Migrate
 
 # initilizing sqlalchemy instance
 db = SQLAlchemy()
 
 
 def create_app():
-    load_dotenv()
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')  # configuration loaded from config file
+    app.config.from_object('Config')
     db.init_app(app)                # configure sqlalchemy instance to work with Flask app
+    migrate = Migrate(app, db)
 
+    # initilizing the security
+    from flask_security import Security, SQLAlchemyUserDatastore
+    from .auth.models import User, Role
+
+    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
+
+    # define BluePrints
     from .routes.men import men
     from .routes.women import women
     from app.routes.Admin import admin
@@ -22,9 +29,5 @@ def create_app():
     app.register_blueprint(women)
     app.register_blueprint(men)
     app.register_blueprint(admin)
-
-    from .models import Clothing, Top, Bottom
-    with app.app_context():
-        db.create_all()
 
     return app
