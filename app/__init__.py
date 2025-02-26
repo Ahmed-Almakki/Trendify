@@ -23,7 +23,7 @@ def create_app():
     from .auth.models import User, Role
 
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
+    security = Security(app, user_datastore, register_blueprint=False)
 
     # define BluePrints
     from .routes.men import men
