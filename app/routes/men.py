@@ -5,13 +5,14 @@ import json
 from flask import Blueprint, jsonify, request
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import TopOrBottom, checkCorrectParameter
+from ..utils.decorator import role_required
 
 men = Blueprint('Men', __name__, url_prefix='/api')
 Models = [Clothing, Top, Bottom]
 
 
 @men.route('/men')
-def product():
+def filterProduct():
     """
     represent all the available product on the storage
     if there is a query search base on the query if not just search all men cloth
@@ -70,7 +71,7 @@ def product():
             # using *cond because using cond without astrickt raise error, you need to unpack it
             # and because it is a list just use one astrikt
             query = query.filter(*filter_list).all()
-            result = [arg.to_dict() for arg in query]
+            result = [arg.to_dict() for arg in query]  # dont forget to add image url
             if len(result) == 0:
                 return jsonify({"Warning": "No product found meeting the criteria"}), 404
             return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
@@ -79,3 +80,23 @@ def product():
 
     except Exception as e:
         return jsonify({"error": f"Cannot retrieve data because of {e}"}), 400
+
+
+@men.route('/men/<int:cloth_id>')
+def getProduct(cloth_id):
+    """
+    when a user click on item to buy
+    :param cloth_id: the item id
+    :return: the image of the product and its price
+    """
+    try:
+
+        item = Clothing.query.filter_by(id=cloth_id, gender='men').first()
+        print(item.to_dict())
+        if not item:
+            return jsonify({"error": "Cloth not found"}), 404
+        res = {'price': item.to_dict()['price'], 'count': item.to_dict()['count']}
+        print(res)
+        return jsonify({"content": res}), 200   # don't forget to add the image url
+    except Exception as e:
+        return jsonify({"error": f"can't return cloth due to {e}"}), 400

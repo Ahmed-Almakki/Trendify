@@ -64,3 +64,23 @@ def Wproduct():
 
     except Exception as e:
         return jsonify({"error": f"Cannot retrieve data because of {e}"}), 400
+
+
+@women.route('/men/<int:cloth_id>')
+def getProduct(cloth_id):
+    """
+    when a user click on item to buy
+    :param cloth_id: the item id
+    :return: the image of the product and its price
+    """
+    try:
+
+        item = Clothing.query.filter_by(id=cloth_id, gender='men').first()
+        print(item.to_dict())
+        if not item:
+            return jsonify({"error": "Cloth not found"}), 404
+        res = {'price': item.to_dict()['price'], 'count': item.to_dict()['count']}
+        print(res)
+        return jsonify({"content": res}), 200   # don't forget to add the image url
+    except Exception as e:
+        return jsonify({"error": f"can't return cloth due to {e}"}), 400
