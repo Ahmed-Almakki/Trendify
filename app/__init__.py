@@ -1,12 +1,17 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_security import Security, SQLAlchemyUserDatastore
+from flask_session import Session
 
 # initilizing sqlalchemy instance
 db = SQLAlchemy()
 
 # initialize it outside the function, so it can be imported by other modules
 user_datastore = None
+
+# initialize Session from flask_session so the session be on server side "redis"
+sess = Session()
 
 
 def create_app():
@@ -17,9 +22,9 @@ def create_app():
     app.config.from_object('Config')
     db.init_app(app)                # configure sqlalchemy instance to work with Flask app
     migrate = Migrate(app, db)
+    sess.init_app(app)
 
     # initilizing the security
-    from flask_security import Security, SQLAlchemyUserDatastore
     from .auth.models import User, Role
 
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
@@ -30,12 +35,17 @@ def create_app():
     from .routes.women import women
     from app.routes.Admin import admin
     from app.auth.auth_routes import auth
+    from app.routes.payment import payment
     from app.routes.front_routes import bp
 
     app.register_blueprint(bp)
     app.register_blueprint(women)
     app.register_blueprint(men)
     app.register_blueprint(admin)
+    app.register_blueprint(payment)
     app.register_blueprint(auth)
+
+    with app.app_context():
+        db.create_all()
 
     return app

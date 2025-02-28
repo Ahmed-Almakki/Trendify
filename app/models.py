@@ -58,32 +58,22 @@ class Clothing(db.Model):
     """
     __tablename__ = "Clothing"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    # category_id: Mapped[int] = mapped_column(Integer, nullable=False)
     color: Mapped[str] = mapped_column(String(10), nullable=False)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
     gender: Mapped[str] = mapped_column(SqlEnum(CategoryType), nullable=False)
+    price: Mapped[str] = mapped_column(String(20))
+    count: Mapped[int] = mapped_column(Integer)
     # image_url: Mapped[str] = mapped_column(String(10), nullable=False)
 
     def to_dict(self):
         return {'id': self.id,
                 'gender': self.gender,
                 'color': self.color,
-                'company': self.company
+                'company': self.company,
+                'price': self.price,
+                'count': self.count
                 # 'image_url': self.image_url
                 }
-
-    # @classmethod
-    # def filterSearch(cls, **kwargs):
-    #     """
-    #     filtring the search
-    #     :param kwargs: query to filter on
-    #     :return: filtered search qurey
-    #     """
-    #     query = cls.query
-    #     for key, val in kwargs.items():
-    #         if hasattr(cls, key):
-    #             query = query.filter(getattr(cls, key) == val)
-    #     return query
 
     @classmethod
     def update(cls, id, **kwargs):
@@ -101,7 +91,6 @@ class Clothing(db.Model):
             if hasattr(instance, key):
                 setattr(instance, key, val)
                 lenghtCheck += 1
-        # db.session.commit()
         if len(kwargs.keys()) == lenghtCheck:
             return True
         return False

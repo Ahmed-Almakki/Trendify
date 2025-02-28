@@ -4,12 +4,14 @@ Admin route to delete create and update products to database
 from flask import Blueprint, request, render_template, jsonify
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
+from ..utils.decorator import role_required
 
 admin = Blueprint('Admin', __name__)
 
 
 @admin.route('/admin', methods=['POST'])
-def CU_op():
+@role_required
+def createTable():
     check = False
 
     if 'company' not in request.form.to_dict().keys():
@@ -30,10 +32,13 @@ def CU_op():
             length = request.form['length']
         company = request.form['company']
         gender = request.form['gender']
+        price = request.form['price']
+        count = request.form['count']
+        # image = request.form['image_url']
 
         try:
 
-            cloth = Clothing(color=color, company=company, gender=gender)
+            cloth = Clothing(color=color, company=company, gender=gender, price=price, count=count) #dont forget image
             db.session.add(cloth)
             db.session.commit()
             if check:
@@ -49,6 +54,7 @@ def CU_op():
 
 
 @admin.route('/admin/<int:cloth_id>', methods=['PUT', 'DELETE'])
+@role_required
 def updateCloth(cloth_id):
     from app import db
 
@@ -68,7 +74,7 @@ def updateCloth(cloth_id):
                     query = Bottom.update(cloth_id, **change)
                     if 'length' in change:
                         holder.remove('length')
-                if not checkCorrectParameter(holder, lst=["color", "company", "gender"]):
+                if not checkCorrectParameter(holder, lst=["color", "company", "gender"]): #dont forget image
                     return jsonify({"error": "Wrong paramters Name (Clothing param)"})
                 query = Clothing.update(cloth_id, **change)
                 db.session.commit()

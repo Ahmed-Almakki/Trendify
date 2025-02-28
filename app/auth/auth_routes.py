@@ -1,8 +1,7 @@
 """
 authentication and authorization
 """
-from flask import Blueprint, render_template, request, jsonify
-from flask_security import auth_required, roles_required
+from flask import Blueprint, render_template, request, jsonify, session
 from flask_security.utils import hash_password, verify_password
 from ..auth.models import User, Role
 from app import user_datastore, db
@@ -54,7 +53,6 @@ def register():
 @auth.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'GET':
-        print("ahmed hisa")
         return render_template('login.html')
 
     elif request.method == 'POST':
@@ -75,6 +73,7 @@ def login():
             if not verify_password(password, user.password):
                 return jsonify({"error": "wrong password"})
 
+            session['user_id'] = user.id
             return jsonify({"message": "successfully logged in"}), 200
         except Exception as e:
             return jsonify({"error": f"cannot logged in due to {e}"})
