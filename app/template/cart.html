@@ -4,19 +4,21 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Clothes</title>
-      <link rel="stylesheet" href="/static/admin.css">
+      <link rel="stylesheet" href="../static/cart.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body>
-    <form action="http://127.0.0.1/admin" method="POST" enctype="multipart/form-data">
-    <label for="color">Color</label><input type="text" class="color" name="color">
-    <label for="gender">Gender</label><input type="text" class="gender" name="gender">
-    <label for="company">Company</label><input type="text" class="company" name="company">
-    <label for="sleeve">Sleeve</label><input type="text" class="sleeve" name="sleeve">
-    <label for="image">Image</label><input type="file" class="image" name="image">
-    <button type="submit">Submit</button>
-</form>
-
+    <header id="header">
+        <img src="https://www.dropbox.com/scl/fi/gn1kdkz26ngovc3vvwd8i/logo.png?rlkey=ctc9dsf5nxmjj3w51d7hc9dy5&st=rwf6ups3&raw=1"
+            alt="logo"
+            class="logo"
+            id="header-img"
+            loading="lazy">
+    </header>
+    <div class="cart">
+        <div class="item"></div>
+        <button type="checkout-btn">Checkout</button>
+    </div>
   </body>
   <footer>
     <div class="footer-container">

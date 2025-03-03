@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_session import Session
+import stripe
 
 # initilizing sqlalchemy instance
 db = SQLAlchemy()
@@ -24,6 +25,8 @@ def create_app():
     migrate = Migrate(app, db)
     sess.init_app(app)
 
+    stripe.api_key = app.config.get('STRIPE_SECRET_KEY')
+
     # initilizing the security
     from .auth.models import User, Role
 
@@ -35,14 +38,14 @@ def create_app():
     from .routes.women import women
     from app.routes.Admin import admin
     from app.auth.auth_routes import auth
-    from app.routes.payment import payment
+    from app.routes.cart import cart
     from app.routes.front_routes import bp
 
     app.register_blueprint(bp)
     app.register_blueprint(women)
     app.register_blueprint(men)
     app.register_blueprint(admin)
-    app.register_blueprint(payment)
+    app.register_blueprint(cart)
     app.register_blueprint(auth)
 
     with app.app_context():

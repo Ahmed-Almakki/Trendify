@@ -48,7 +48,7 @@ def createTable():
                 bottom = Bottom(length=length, clothing_id=cloth.id)
                 db.session.add(bottom)
             db.session.commit()
-            return render_template("admin.html")
+            return render_template("dashboard.html")
         except Exception as e:
             return jsonify({'error': f'Cannot create Table because of {e}'}), 400
 
