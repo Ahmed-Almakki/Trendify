@@ -1,4 +1,77 @@
-/* Basic styling for the form */
+/* Global box-sizing and smooth scroll behavior */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    height: 100%; /* Ensure html takes full height */
+}
+
+body {
+    background-color: #FAF3F3;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Stack header, main, and footer vertically */
+    height: 100vh; /* Full height of the viewport */
+}
+
+/* Header Styling */
+#header {
+    display: flex;
+    width: 100%;
+    height: 10vh; /* 10% of viewport height */
+    position: sticky;
+    top: 0;
+    background-color: #3E2C2C; /* Uncomment if needed */
+}
+
+.logo {
+    width: 10%;
+}
+
+#nav-bar {
+    margin: auto;
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; /* Ensure vertical alignment */
+}
+
+#nav-bar .line a {
+    color: #FAF3F3;
+    text-decoration: none;
+}
+
+#nav-bar .line:last-child a {
+    color: goldenrod;
+}
+
+.line {
+    background-color: #3E2C2C;
+    display: flex;
+    width: 100%;
+    border-left: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+}
+
+.line:hover {
+    background: #5A4545;
+    transition: background-color 0.5s ease-in-out;
+}
+
+/* Main content section (ensuring it fits within the viewport) */
+main {
+    flex: 1; /* Take up the remaining space */
+    padding: 20px;
+    overflow-y: auto; /* Prevent overflow if content is too much */
+}
+
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
@@ -8,7 +81,7 @@ form {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 50px; /* Add space from top */
+    margin-top: 50px;
 }
 
 /* Styling for the labels */
@@ -30,7 +103,7 @@ form input[type="text"], form input[type="file"] {
     box-sizing: border-box;
 }
 
-/* Add a little hover effect to inputs */
+/* Add hover effect for inputs */
 form input[type="text"]:hover, form input[type="file"]:hover {
     border-color: #007bff;
 }
@@ -40,7 +113,7 @@ form input[type="file"] {
     cursor: pointer;
 }
 
-/* Styling for the submit button */
+/* Submit button styling */
 form button {
     padding: 10px 20px;
     background-color: #007bff;
@@ -57,6 +130,23 @@ form button:hover {
     background-color: #0056b3;
 }
 
+a {
+    text-decoration: none;
+}
+
+
+.footer-container {
+    background-color: #3E2C2C;
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    justify-content: space-evenly;
+    align-items: center;
+    grid-template-rows: 20vh 10vh;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
 .footer-container * {
     color: #FAF3F3;
 }
@@ -67,9 +157,21 @@ form button:hover {
 }
 
 @media only screen and (max-width: 600px) {
+
     .footer-container {
         grid-template-rows: auto auto auto;
         gap: 20px;
         padding-left: 10px;
     }
+    
+    .footer-section a {
+        margin: 0 2px;
+        align-items: center;
+    }
+
+    iframe {
+        width: 200px;
+        height: 200px;
+    }
+
 }

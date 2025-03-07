@@ -1,12 +1,15 @@
 """
 Admin route to delete create and update products to database
 """
-from flask import Blueprint, request, render_template, jsonify
+import base64
+import requests
+from flask import Blueprint, request, render_template, jsonify, current_app
+from werkzeug.utils import secure_filename
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
 from ..utils.decorator import role_required
 
-admin = Blueprint('Admin', __name__)
+admin = Blueprint('Admin', __name__, template_folder='../template')
 
 
 @admin.route('/admin', methods=['POST'])
@@ -20,6 +23,8 @@ def createTable():
         return jsonify({'error': "Color is Missing"}), 404
     elif 'gender' not in request.form.to_dict().keys():
         return jsonify({'error': 'Gender is not Set'}), 404
+    elif 'file' not in request.files:
+        return jsonify({"error": "You didn't upload file"}), 404
 
     else:
         from app import db
@@ -28,17 +33,26 @@ def createTable():
         if request.form.get('sleeve'):
             sleeve = request.form['sleeve']
             check = True
+
         if request.form.get('length'):
             length = request.form['length']
+
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"error": "you didn't select file to upload"}), 400
+        img_url = uploadImage(file)
+        # print(img_url['data']['url'])
+
         company = request.form['company']
         gender = request.form['gender']
         price = request.form['price']
         count = request.form['count']
-        # image = request.form['image_url']
 
         try:
 
-            cloth = Clothing(color=color, company=company, gender=gender, price=price, count=count) #dont forget image
+            cloth = Clothing(color=color,
+                             company=company, gender=gender, price=price,
+                             count=count, image_url=img_url['data']['url']) #dont forget image
             db.session.add(cloth)
             db.session.commit()
             if check:
@@ -48,7 +62,7 @@ def createTable():
                 bottom = Bottom(length=length, clothing_id=cloth.id)
                 db.session.add(bottom)
             db.session.commit()
-            return render_template("dashboard.html")
+            return render_template("admin.html")
         except Exception as e:
             return jsonify({'error': f'Cannot create Table because of {e}'}), 400
 
@@ -93,3 +107,17 @@ def updateCloth(cloth_id):
             return jsonify({"error": "Data dosen't exsist in database"}), 404
     except Exception as e:
         return jsonify({"error": f"can't update due to {e}"})
+
+
+def uploadImage(imageName):
+    api_img = current_app.config['IMG_API_KEY']
+    url ='https://api.imgbb.com/1/upload'
+    imgFile = imageName.read()
+    image_base64 = base64.b64encode(imgFile).decode('ascii')
+    payload = {
+        "key": api_img,
+        "image": image_base64
+    }
+    response = requests.post(url, data=payload)
+    return response.json()
+    

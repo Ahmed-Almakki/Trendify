@@ -1,8 +1,8 @@
-"""empty message
+"""Initial migration
 
-Revision ID: 7a1a6f58a1b3
-Revises: 723434483d00
-Create Date: 2025-02-26 01:52:36.366170
+Revision ID: 8a2428f917b4
+Revises: 
+Create Date: 2025-03-03 13:03:48.775550
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = '7a1a6f58a1b3'
-down_revision = '723434483d00'
+revision = '8a2428f917b4'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -26,6 +26,8 @@ def upgrade():
         batch_op.drop_constraint('top_detail_ibfk_1', type_='foreignkey')
         batch_op.create_foreign_key(None, 'Clothing', ['clothing_id'], ['id'], ondelete='CASCADE')
 
+    op.add_column('clothing', sa.Column('image_url', sa.String(length=255), nullable=True))
+
     # ### end Alembic commands ###
 
 
@@ -39,30 +41,5 @@ def downgrade():
         batch_op.drop_constraint(None, type_='foreignkey')
         batch_op.create_foreign_key('bottom_detail_ibfk_1', 'clothing', ['clothing_id'], ['id'], ondelete='CASCADE')
 
-    op.create_table('role_user',
-    sa.Column('id', mysql.INTEGER(), autoincrement=True, nullable=False),
-    sa.Column('user_id', mysql.INTEGER(), autoincrement=False, nullable=False),
-    sa.Column('role_id', mysql.INTEGER(), autoincrement=False, nullable=False),
-    sa.ForeignKeyConstraint(['role_id'], ['role.id'], name='role_user_ibfk_1'),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], name='role_user_ibfk_2'),
-    sa.PrimaryKeyConstraint('id'),
-    mysql_collate='utf8mb4_0900_ai_ci',
-    mysql_default_charset='utf8mb4',
-    mysql_engine='InnoDB'
-    )
-    op.create_table('clothing',
-    sa.Column('id', mysql.INTEGER(), autoincrement=True, nullable=False),
-    sa.Column('color', mysql.VARCHAR(length=10), nullable=False),
-    sa.Column('company', mysql.VARCHAR(length=10), nullable=False),
-    sa.Column('gender', mysql.ENUM('Men', 'Women'), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    mysql_collate='utf8mb4_0900_ai_ci',
-    mysql_default_charset='utf8mb4',
-    mysql_engine='InnoDB'
-    )
-    with op.batch_alter_table('clothing', schema=None) as batch_op:
-        batch_op.create_index('id', ['id'], unique=True)
-
-    op.drop_table('roles_users')
-    op.drop_table('Clothing')
+    op.add_column('clothing', sa.Column('image_url', sa.String(length=255), nullable=True))
     # ### end Alembic commands ###

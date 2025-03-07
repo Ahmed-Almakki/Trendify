@@ -1,71 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clothes</title>
-    <link rel="stylesheet" href="/static/women.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <header id="header">
-        <img src="https://www.dropbox.com/scl/fi/gn1kdkz26ngovc3vvwd8i/logo.png?rlkey=ctc9dsf5nxmjj3w51d7hc9dy5&st=rwf6ups3&raw=1"
-            alt="logo"
-            class="logo"
-            id="header-img"
-            loading="lazy">
-        <nav id="nav-bar">
-            <div class="line"><a class="nav-link" href="#welcome">Welcome</a></div>
-            <div class="line"><a class="nav-link" href="#men">Women</a></div>
-            <div class="line"><a class="nav-link" href="#women">Men</a></div>
-            <div class="line"><a class="nav-link" href="#kids">Kids</a></div>
-            <div class="line"><a class="nav-link" href="#order">Order</a></div>
-        </nav>
-    </header>
-    <main>
-        <section></section>
-    </main>
-    <footer>
-        <div class="footer-container">
-            <!-- Contact Information -->
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p><span class="bold" >Email</span>: ahmedlmakkii@gmail.com</p>
-                <p><span class="bold">Phone</span>: +249915148807</p>
-            </div>
-    
-            <!-- Social Media Links -->
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <a href="https://facebook.com/almakki" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-                <a href="https://instagram.com/almakki" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://twitter.com/almakki" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-            </div>
-    
-            <!-- About Us Link -->
-            <div class="footer-section">
-                <h4>About Us</h4>
-                <a href="/about-us">Learn More</a>
-            </div>
-    
-            <!-- Privacy Policy & Terms -->
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms-conditions">Terms & Conditions</a>
-            </div>
-    
-            <!-- Payment Options -->
-            <div class="footer-section">
-                <h4>We Accept</h4>
-                <label for="fa-brands fa-paypal"></label><a href="index.html"><i class="fa-brands fa-paypal"></i></a>
-            </div>
-    
-            <!-- Copyright -->
-            <div class="footer-section">
-                <p>&copy; 2025 ALMAKKI. All rights reserved.</p>
-            </div>
+{% extends "base.html" %}
+
+{% block title %}
+    Women Page
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='women.css') }}">
+{% endblock %}
+
+{% block nav %}
+    <div class="line"><a class="nav-link" href="{{ url_for('bp.home') }}/">Welcome</a></div>
+    <div class="line"><a class="nav-link" href="{{ url_for('bp.women') }}">Women</a></div>
+    <div class="line"><a class="nav-link" href="{{ url_for('bp.men') }}">Men</a></div>
+    <div class="line"><a class="nav-link" href="{{ url_for('bp.cart') }}">cart</a></div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="items">
+
         </div>
-    </footer>    
-</body>
-</html>
+    </div>
+{% endblock %}

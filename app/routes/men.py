@@ -3,6 +3,7 @@ routs belong to men products that client could use
 """
 import json
 from flask import Blueprint, jsonify, request
+from uuid import UUID
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import TopOrBottom, checkCorrectParameter
 from ..utils.decorator import role_required
@@ -82,7 +83,7 @@ def filterProduct():
         return jsonify({"error": f"Cannot retrieve data because of {e}"}), 400
 
 
-@men.route('/men/<int:cloth_id>')
+@men.route('/men/<uuid:cloth_id>')
 def getProduct(cloth_id):
     """
     when a user click on item to buy
@@ -90,7 +91,8 @@ def getProduct(cloth_id):
     :return: the image of the product and its price
     """
     try:
-
+        cloth_id = UUID(cloth_id)
+        print(cloth_id)
         item = Clothing.query.filter_by(id=cloth_id, gender='men').first()
         print(item.to_dict())
         if not item:

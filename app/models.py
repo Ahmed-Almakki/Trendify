@@ -5,6 +5,7 @@ from enum import Enum
 from app import db
 from sqlalchemy import Integer, String, ForeignKey, Enum as SqlEnum
 from sqlalchemy.orm import Mapped, mapped_column
+from uuid import uuid4, UUID
 
 
 class CategoryType(Enum):
@@ -57,13 +58,13 @@ class Clothing(db.Model):
     Clothing Model represent high level detail of the cloth
     """
     __tablename__ = "Clothing"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     color: Mapped[str] = mapped_column(String(10), nullable=False)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
     gender: Mapped[str] = mapped_column(SqlEnum(CategoryType), nullable=False)
     price: Mapped[str] = mapped_column(String(20))
     count: Mapped[int] = mapped_column(Integer)
-    # image_url: Mapped[str] = mapped_column(String(10), nullable=False)
+    image_url: Mapped[str] = mapped_column(String(10), nullable=False)
 
     def to_dict(self):
         return {'id': self.id,
@@ -105,7 +106,7 @@ class Top(db.Model):
     """
     __tablename__ = "top_detail"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
+    clothing_id: Mapped[UUID] = mapped_column(ForeignKey(Clothing.id, ondelete='CASCADE'))
     sleeve: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
     def to_dict(self):
@@ -152,7 +153,7 @@ class Bottom(db.Model):
     """
     __tablename__ = "bottom_detail"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    clothing_id: Mapped[int] = mapped_column(Integer, ForeignKey(Clothing.id, ondelete='CASCADE'))
+    clothing_id: Mapped[UUID] = mapped_column(ForeignKey(Clothing.id, ondelete='CASCADE'))
     length: Mapped[LengthTpe] = mapped_column(SqlEnum(LengthTpe), nullable=False)
 
     def to_dict(self):

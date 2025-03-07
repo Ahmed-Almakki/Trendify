@@ -7,8 +7,9 @@ def role_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         userId = session.get('user_id')
+        print("session", session,"\nuserId", userId)
         if not userId:
-            return jsonify({"error": "You don't have permission you need to login"}), 400
+            return jsonify({"error": "You don't haaave permission you need to login"}), 400
 
         query = RoleUser.query.filter_by(user_id=userId).first()
 

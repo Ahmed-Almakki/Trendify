@@ -1,8 +1,8 @@
+from flask_session import Session
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_security import Security, SQLAlchemyUserDatastore
-from flask_session import Session
 import stripe
 
 # initilizing sqlalchemy instance

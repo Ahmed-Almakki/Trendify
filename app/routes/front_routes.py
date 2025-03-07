@@ -7,8 +7,8 @@ from jinja2 import TemplateNotFound
 bp = Blueprint('bp', __name__, template_folder="../template", static_folder="../static")
 
 
-@bp.route('/')
-def welcom():
+@bp.route('/home',  strict_slashes=False)
+def home():
     """
     Render Home page
     :return: HTML Home page
@@ -46,14 +46,22 @@ def women():
         abort(404)
 
 
-@bp.route('/kids')
-def kid():
+@bp.route('/admin')
+def admin():
     """
     Render kids page
     :return: HTML kids page
     :raises 404 if the template not found
     """
     try:
-        return render_template("kids.html")
+        return render_template("admin.html")
+    except TemplateNotFound:
+        abort(404)
+
+
+@bp.route('/cart')
+def cart():
+    try:
+        return render_template('cart.html')
     except TemplateNotFound:
         abort(404)

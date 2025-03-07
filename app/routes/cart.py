@@ -25,7 +25,7 @@ def setCart():
     if request.method == 'POST':
         session['cart'] = request.form['email']
         print(session, '\n', session.get('cart'))
-        return redirect(url_for('.addToCart'))
+        return redirect(request.referrer)
     return render_template('email.html')
 
 
