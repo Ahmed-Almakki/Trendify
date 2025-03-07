@@ -3,15 +3,10 @@ contain function that deals with cart adding - delete - update
 """
 from flask import session, Blueprint, request, jsonify, redirect, url_for, render_template
 import stripe
-from ..models import Clothing, Top, Bottom
+import uuid
+from ..models import Clothing
 
 cart = Blueprint('payment', __name__)
-
-
-@cart.route('/checkSession')
-def checkSession():
-    print("jhgjhghgjgjghj")
-    return jsonify({"session": session['user_id']})
 
 
 @cart.route('/set_email', methods=['POST', 'GET'])
@@ -45,6 +40,7 @@ def addToCart():
     add product to cart "session"
     :return: json message
     """
+    # print("ahmed")
     try:
         # print(session, '\n', session.keys(), '\n', session.get('cart'))
         if not session.get('cart'):
@@ -54,11 +50,14 @@ def addToCart():
         if not cloth_id or not quantity:
             return jsonify({"error": "Missing cloth id or count"}), 400
 
-        cloth = Clothing.query.filter_by(id=cloth_id).first()
+        cloth_uuid = uuid.UUID(cloth_id) # convert cloth id from str to UUID becuase it is in the model UUID
+
+        cloth = Clothing.query.filter_by(id=cloth_uuid).first()
         if not cloth:
             return jsonify({"error": "Cloth not found"}), 404
-
+        print("colht", cloth)
         item = {'price': cloth.price, 'quantity': quantity, 'total_price': int(cloth.price) * quantity}
+        print(f"items {item}")
         # check if there is an existing cart "session"
         cart_id = 'cart.' + str(cloth.id)
         checkItemExist = session.get(cart_id)
@@ -94,7 +93,7 @@ def deleteFromCart():
         
         item = 'cart.' + str(cloth_id)
         cloth = session.get(item)
-        if not item:
+        if not cloth:
             return jsonify({"error": "item isn't in cart"}), 400
         
         session.pop(item)
@@ -114,11 +113,25 @@ def createCheckout():
         for key in session.keys():
             if key.startswith('cart.'):
                 item = session[key]
+                cloth_id = key.split('.')[1]
+
+                try:
+                    cloth_id = uuid.UUID(cloth_id)
+                except ValueError:
+                    continue
+
+                cloth = Clothing.query.filter_by(id=cloth_id).first()
+                if not cloth:
+                    continue
+
+                img_url = cloth.image_url
+
                 line_item.append({
                     'price_data': {
                         'currency': 'usd',
                         'product_data': {
                             'name': key.split('.')[1],
+                            'images': [img_url],
                         },
                         'unit_amount': int(item['price'])
                     },

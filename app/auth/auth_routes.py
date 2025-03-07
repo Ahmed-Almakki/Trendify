@@ -79,9 +79,3 @@ def login():
             return jsonify({"message": "successfully logged in"}), 200
         except Exception as e:
             return jsonify({"error": f"cannot logged in due to {e}"})
-        
-
-@auth.route('/login/sess')
-def ses():
-    print(session, session.sid)
-    return jsonify({"message": "ok"})

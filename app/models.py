@@ -23,36 +23,6 @@ class LengthTpe(Enum):
     Long = "long"
     Short = "short"
 
-
-# class Category(db.Model):
-#     """
-#     Categroy Model represent the categroy (men - women - kids)
-#     """
-#     __tablename__ = "Category"
-#     id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False, primary_key=True)
-#     gender: Mapped[CategoryType] = mapped_column(SqlEnum(CategoryType), nullable=False)
-#     gender_id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
-#
-#     def __init__(self, gender):
-#         """
-#         when Category class created the init revoke automatically and assign the gender and
-#         revoke the function set_gender_id which well be assigned to gender id
-#         :param gender: men or women
-#         """
-#         self.gender = gender
-#         self.set_gender_id()
-#
-#     def set_gender_id(self):
-#         """
-#         set the gender id based on the gender type
-#         """
-#         # CategoryType it's the type of men or women look at Mapped[CategoryType]
-#         if self.gender == CategoryType.Men:
-#             self.gender_id = 1
-#         else:
-#             self.gender_id = 2
-
-
 class Clothing(db.Model):
     """
     Clothing Model represent high level detail of the cloth

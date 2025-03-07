@@ -6,7 +6,6 @@ from flask import Blueprint, jsonify, request
 from uuid import UUID
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import TopOrBottom, checkCorrectParameter
-from ..utils.decorator import role_required
 
 men = Blueprint('Men', __name__, url_prefix='/api')
 Models = [Clothing, Top, Bottom]
@@ -97,7 +96,7 @@ def getProduct(cloth_id):
         print(item.to_dict())
         if not item:
             return jsonify({"error": "Cloth not found"}), 404
-        res = {'price': item.to_dict()['price'], 'count': item.to_dict()['count']}
+        res = {'price': item.to_dict()['price'], 'count': item.to_dict()['count'], 'imgurl': item.to_dict()['img_url']}
         print(res)
         return jsonify({"content": res}), 200   # don't forget to add the image url
     except Exception as e:
