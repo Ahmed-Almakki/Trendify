@@ -1,7 +1,7 @@
 """
 authentication and authorization
 """
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
 from flask_security.utils import hash_password, verify_password
 from ..auth.models import User, Role
 from app import user_datastore, db
@@ -74,8 +74,8 @@ def login():
                 return jsonify({"error": "wrong password"})
 
             session['user_id'] = user.id
-            session.modified = True
+            session.permanent = True
             print("session is ", session)
-            return jsonify({"message": "successfully logged in"}), 200
+            return redirect(url_for('Admin.createTable'))
         except Exception as e:
             return jsonify({"error": f"cannot logged in due to {e}"})

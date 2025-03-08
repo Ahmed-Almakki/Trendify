@@ -5,11 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-  <form id="login" method="post" action="{{ url_for('auth.login') }}">
-    <label for="email">Email:</label><input name="email" type="email" class="email" required>
+  <form id="login" method="post" action="http://localhost:5000/login">
+    <label for="email">Email:</label><input name="email" type="email"required>
     <label for="password">Password</label><input
           type="password"
-          class="password"
+          name="password"
           minlength="8"
           required
   />

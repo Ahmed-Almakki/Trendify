@@ -7,7 +7,7 @@ from jinja2 import TemplateNotFound
 bp = Blueprint('bp', __name__, template_folder="../template", static_folder="../static")
 
 
-@bp.route('/home',  strict_slashes=False)
+@bp.route('/',  strict_slashes=False)
 def home():
     """
     Render Home page

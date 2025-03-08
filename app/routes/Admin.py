@@ -3,7 +3,7 @@ Admin route to delete create and update products to database
 """
 import base64
 import requests
-from flask import Blueprint, request, render_template, jsonify, current_app
+from flask import Blueprint, request, redirect, jsonify, current_app
 from werkzeug.utils import secure_filename
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
@@ -23,7 +23,7 @@ def createTable():
         return jsonify({'error': "Color is Missing"}), 404
     elif 'gender' not in request.form.to_dict().keys():
         return jsonify({'error': 'Gender is not Set'}), 404
-    elif 'file' not in request.files:
+    elif 'image' not in request.files:
         return jsonify({"error": "You didn't upload file"}), 404
 
     else:
@@ -37,7 +37,7 @@ def createTable():
         if request.form.get('length'):
             length = request.form['length']
 
-        file = request.files['file']
+        file = request.files['image']
         if file.filename == '':
             return jsonify({"error": "you didn't select file to upload"}), 400
         img_url = uploadImage(file)
@@ -62,7 +62,7 @@ def createTable():
                 bottom = Bottom(length=length, clothing_id=cloth.id)
                 db.session.add(bottom)
             db.session.commit()
-            return render_template("admin.html")
+            return redirect(request.referrer)
         except Exception as e:
             return jsonify({'error': f'Cannot create Table because of {e}'}), 400
 
