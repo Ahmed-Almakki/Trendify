@@ -12,7 +12,11 @@
     <div class="line"><a class="nav-link" href="{{ url_for('bp.home') }}">Welcome</a></div>
     <div class="line"><a class="nav-link" href="{{ url_for('bp.women') }}">Women</a></div>
     <div class="line"><a class="nav-link" href="{{ url_for('bp.men') }}">Men</a></div>
+{% if title %}
+    <div class="line"><a class="nav-link" href="{{ url_for('bp.admin') }}">Dashboard</a></div>
+{% else %}
     <div class="line"><a class="nav-link" href="{{ url_for('bp.cart') }}">cart</a></div>
+{% endif %}
 {% endblock %}
 
 {% block content %}

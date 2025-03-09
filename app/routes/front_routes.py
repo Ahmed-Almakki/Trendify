@@ -15,7 +15,7 @@ def home():
     :raises 404 if the template not found
     """
     try:
-        return render_template("index.html")
+        return render_template("index.html", title="Admin-Dashboard")
     except TemplateNotFound:
         abort(404)
 
@@ -28,7 +28,7 @@ def men():
     :raises 404 if the template not found
     """
     try:
-        return render_template("men.html")
+        return render_template("men.html", title="Admin-dashboard")
     except TemplateNotFound:
         abort(404)
 
@@ -41,7 +41,7 @@ def women():
     :raises 404 if the template not found
     """
     try:
-        return render_template("women.html")
+        return render_template("women.html", title="Admin-dashboard")
     except TemplateNotFound:
         abort(404)
 

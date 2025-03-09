@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block css %}
-      <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 
 {% block nav %}
@@ -15,20 +15,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="dashboard-container">
+     <div class="dashboard-container">
         <div class="statistic"></div>
         <div class="cloth-from">
-            <h2>Item Upload</h2>
-            <form action="{{ url_for('bp.admin') }}" method="post" enctype="multipart/form-data">
+            <h2>Item Upload </h2>
+            <form action="http://127.0.0.1/admin" method="POST" enctype="multipart/form-data">
                 <label for="color">Color</label><input type="text" class="color" name="color">
                 <label for="gender">Gender</label><input type="text" class="gender" name="gender">
                 <label for="company">Company</label><input type="text" class="company" name="company">
-                <label for="price">Price</label><input type="text" class="price" name="price">
-                <label for="count">Count</label><input type="text" class="count" name="count">
-                <label for="sleeve">Sleeve</label><input type="text" class="sleeve" name="sleeve">
+                <label for="sleeve">Sleeve</label><input type="" class="sleeve" name="sleeve">
                 <label for="image">Image</label><input type="file" class="image" name="image">
                 <button type="submit">Submit</button>
             </form>
         </div>
+    </div>
     </div>
 {% endblock %}
