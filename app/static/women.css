@@ -65,6 +65,63 @@ section {
     }
 }
 
+
+.container {
+    width: 100%;
+    height: 100vh;
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+    /* background-color: red; */
+    /* padding-top: 70px; */
+    /* padding-left: 90px; */
+    /* border: 2px solid black; */
+}
+
+.filters {
+    background-color: #EADBC8;
+    display: flex;
+    height: fit-content;
+    color: #3E2C2C;
+    border-radius: 8px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 90px; /* Now it only affects the spacing between groups */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column; /* Keeps label & select stacked together */
+    align-items: center;
+}
+
+select {
+    width: 200px;
+    margin-left: 50px;
+    aspect-ratio: 1/0.2;
+    opacity: 60%;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80%;
+    /* background-color: red; */
+    height: inherit;
+}
+.cards {
+    width: 10%;
+    aspect-ratio: 1 / 1;
+}
+
+.cards img {
+    object-fit: contain;
+}
+
 a {
     text-decoration: none;
 }

@@ -20,9 +20,36 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="items">
-
+<div class="container">
+    <div class="filters">
+        <div class="filter-group">
+            <label for="sleeve">Sleeve</label>
+            <select name="sleeve" id="sleeve">
+                <option value="">None</option>
+                <option value="short">Short</option>
+                <option value="long">Long</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="pants">Pants</label>
+            <select name="pants" id="pants">
+                <option value="">None</option>
+                <option value="short">Short</option>
+                <option value="long">Long</option>
+            </select>
+        </div>
+    
+        <div class="filter-group">
+            <label for="color">Color</label>
+            <select name="color" id="color"></select>
         </div>
     </div>
+    <div id="items">
+
+    </div>
+</div>
+{% block scrpt %}
+<!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
+{% endblock %}
 {% endblock %}

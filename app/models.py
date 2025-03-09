@@ -42,7 +42,8 @@ class Clothing(db.Model):
                 'color': self.color,
                 'company': self.company,
                 'price': self.price,
-                'count': self.count
+                'count': self.count,
+                'image_url': self.image_url
                 # 'image_url': self.image_url
                 }
 
