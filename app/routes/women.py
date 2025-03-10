@@ -3,6 +3,7 @@ routs belong to women products that client could use
 """
 import json
 from flask import Blueprint, jsonify, request
+from flask_cors import cross_origin
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import TopOrBottom, checkCorrectParameter
 
@@ -11,6 +12,7 @@ Models = [Clothing, Top, Bottom]
 
 
 @women.route('/women')
+@cross_origin()
 def Wproduct():
     """
     represent all the available product on the storage

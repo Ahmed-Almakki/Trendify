@@ -49,8 +49,12 @@
 
         </div>
     </div>
+
 {% block scrpt %}
- <script src="{{ url_for('static', filename='js/men.js') }}"></script>
+    <script>
+        const user = 'men';
+    </script>
+    <script src="{{ url_for('static', filename='js/men.js') }}"></script>
 {% endblock %}
 
 {% endblock %}

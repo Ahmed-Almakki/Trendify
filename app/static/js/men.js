@@ -9,19 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const colr = colorSelector.value
         let url;
         if (!slev && !pnts && !colr) {
-            url = "http://127.0.0.1:5000/api/men";
+            url = `http://127.0.0.1:5000/api/${user}`;
         } else {
             const arg = new URLSearchParams();
             if (slev) arg.append("sleeve", slev);
             if (pnts) arg.append("pants", pnts);
             if (colr) arg.append("color", colr);
-            url = `http://127.0.0.1:5000/api/men?${arg.toString()}`
+            url = `http://127.0.0.1:5000/api/${user}?${arg.toString()}`
         }
         fetch(url)
             .then(response => response.json())
             .then((elmnt) => {
                 items.innerHTML = ""
                 elmnt.forEach(itm => {
+                    console.log("its a price of ", itm.price)
                     if (itm.image_url !== null) {
                         const newItem = document.createElement('div')
                         newItem.innerHTML = `

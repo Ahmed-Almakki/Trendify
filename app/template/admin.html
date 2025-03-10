@@ -20,7 +20,7 @@
         <div class="cloth-from">
             <form action="{{ url_for('Admin.createTable')}}" method="POST" enctype="multipart/form-data">
                 <div class="div1 form-div">
-                    <label for="color">Color</label><input type="text" class="color" name="color">
+                    <label for="color">Color</label><input type="text" class="color" name="color" required>
                 </div>
                 <div class="div2 form-div">
                     <label for="company">Company </label><input type="text" class="company" name="company" required>
@@ -32,7 +32,7 @@
                 <div class="div5 form-div">
                     <legend>Gender</legend>
                     <input type="radio" id="male" value="men" name="gender" checked><label for="male">Male</label>
-                    <input type="radio" id="female" value="women" name="gender"><label for="female">Female</label>
+                    <input type="radio" id="female" value="women" name="gender" ><label for="female">Female</label>
                 </div>
                 <div class="div5 form-div">
                     <input type="radio" id="top" value="length" name="cloth"><label for="top">Top</label>
@@ -42,7 +42,7 @@
 
                 </div>
                 <div class="div7 form-div">
-                    <label for="image">Image</label><input type="file" class="image" name="image">
+                    <label for="image">Image</label><input type="file" class="image" name="image" required>
                 </div>
                 <div class="div8 form-div">
                     <button type="submit">Enter Data</button>
