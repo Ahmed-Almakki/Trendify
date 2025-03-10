@@ -18,7 +18,7 @@
      <div class="dashboard-container">
         <div class="statistic"></div>
         <div class="cloth-from">
-            <form action="http://127.0.0.1/admin" method="POST" enctype="multipart/form-data">
+            <form action="{{ url_for('Admin.createTable')}}" method="POST" enctype="multipart/form-data">
                 <div class="div1 form-div">
                     <label for="color">Color</label><input type="text" class="color" name="color">
                 </div>
@@ -26,7 +26,7 @@
                     <label for="company">Company </label><input type="text" class="company" name="company" required>
                 </div>
                 <div class="div4 form-div">
-                    <label for="quantity">Quantity </label><input type="number" name="quantity" required>
+                    <label for="count">Count </label><input type="number" name="count" required>
                     <label for="price">Price </label><input type="number" name="price" required>
                 </div>
                 <div class="div5 form-div">
@@ -35,10 +35,10 @@
                     <input type="radio" id="female" value="women" name="gender"><label for="female">Female</label>
                 </div>
                 <div class="div5 form-div">
-                    <input type="radio" id="top" value="length" name="cloth" checked><label for="top">Top</label>
+                    <input type="radio" id="top" value="length" name="cloth"><label for="top">Top</label>
                     <input type="radio" id="bottom" value="sleeve" name="cloth"><label for="bottom">Bottom</label>
                 </div>
-                <div class="div5 form-div">
+                <div class="div5 form-div" id="topBot">
 
                 </div>
                 <div class="div7 form-div">
@@ -51,4 +51,7 @@
         </div>
     </div>
     </div>
+{% block scrpt %}
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
 {% endblock %}

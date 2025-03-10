@@ -3,8 +3,7 @@ Admin route to delete create and update products to database
 """
 import base64
 import requests
-from flask import Blueprint, request, redirect, jsonify, current_app
-from werkzeug.utils import secure_filename
+from flask import Blueprint, request, redirect, jsonify, current_app, flash
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
 from ..utils.decorator import role_required
@@ -34,7 +33,7 @@ def createTable():
             sleeve = request.form['sleeve']
             check = True
 
-        if request.form.get('length'):
+        elif request.form.get('length'):
             length = request.form['length']
 
         file = request.files['image']
@@ -47,6 +46,9 @@ def createTable():
         gender = request.form['gender']
         price = request.form['price']
         count = request.form['count']
+        if not count or not company or not gender or not price:
+            flash("Data not entered")
+            return redirect(request.referrer)
 
         try:
 
