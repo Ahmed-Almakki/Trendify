@@ -18,14 +18,35 @@
      <div class="dashboard-container">
         <div class="statistic"></div>
         <div class="cloth-from">
-            <h2>Item Upload </h2>
             <form action="http://127.0.0.1/admin" method="POST" enctype="multipart/form-data">
-                <label for="color">Color</label><input type="text" class="color" name="color">
-                <label for="gender">Gender</label><input type="text" class="gender" name="gender">
-                <label for="company">Company</label><input type="text" class="company" name="company">
-                <label for="sleeve">Sleeve</label><input type="" class="sleeve" name="sleeve">
-                <label for="image">Image</label><input type="file" class="image" name="image">
-                <button type="submit">Submit</button>
+                <div class="div1 form-div">
+                    <label for="color">Color</label><input type="text" class="color" name="color">
+                </div>
+                <div class="div2 form-div">
+                    <label for="company">Company </label><input type="text" class="company" name="company" required>
+                </div>
+                <div class="div4 form-div">
+                    <label for="quantity">Quantity </label><input type="number" name="quantity" required>
+                    <label for="price">Price </label><input type="number" name="price" required>
+                </div>
+                <div class="div5 form-div">
+                    <legend>Gender</legend>
+                    <input type="radio" id="male" value="men" name="gender" checked><label for="male">Male</label>
+                    <input type="radio" id="female" value="women" name="gender"><label for="female">Female</label>
+                </div>
+                <div class="div5 form-div">
+                    <input type="radio" id="top" value="length" name="cloth" checked><label for="top">Top</label>
+                    <input type="radio" id="bottom" value="sleeve" name="cloth"><label for="bottom">Bottom</label>
+                </div>
+                <div class="div5 form-div">
+
+                </div>
+                <div class="div7 form-div">
+                    <label for="image">Image</label><input type="file" class="image" name="image">
+                </div>
+                <div class="div8 form-div">
+                    <button type="submit">Enter Data</button>
+                </div>
             </form>
         </div>
     </div>

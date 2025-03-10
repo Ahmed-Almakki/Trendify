@@ -97,9 +97,10 @@ main {
 /* Form Styling */
 form {
     max-width: 400px;
-    margin: 0 auto;
+    margin: auto;
     padding: 20px;
-    background-color: #f4f4f9;
+    background-color: #3E2C2C;
+    color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
@@ -118,7 +119,7 @@ form input[type="text"], form input[type="file"] {
 
 /* Add hover effect for inputs */
 form input[type="text"]:hover, form input[type="file"]:hover {
-    border-color: #007bff;
+    border-color: #FAF3F3;
 }
 
 /* Adjust the file input */
@@ -129,18 +130,44 @@ form input[type="file"] {
 /* Submit button styling */
 form button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #5A4545;
     color: white;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    align-self: center;
+    margin-left: 125px;
 }
 
 /* Button hover effect */
 form button:hover {
-    background-color: #0056b3;
+    background-color: #605151;
+}
+
+.form-div {
+    margin-bottom: 20px; 
+}
+
+.div5 {
+    padding-top: 10px;
+}
+
+.div5 input:nth-of-type(2){
+    margin-left: 30px;
+}
+
+.div5 input, .div6 input {
+    width: unset;
+    margin: 0 0.3em 0 0;
+    vertical-align: middle;
+}
+
+.div4 input {
+    width: 60px;
+}
+
+.div4 input:nth-of-type(1) {
+    margin-right: 40px;
 }
 
 a {
