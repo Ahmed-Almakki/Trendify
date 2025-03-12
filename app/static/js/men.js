@@ -3,13 +3,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const sleevSelector = document.getElementById('sleeve')
     const pantsSelector = document.getElementById('length')
     const colorSelector = document.getElementById('color')
+
+    function colorOptions() {
+        fetch(`http://127.0.0.1:5000/api/${user}`)
+            .then(response => response.json())
+            .then(elment => {
+                const non = document.createElement('option');
+                non.value = "";
+                non.textContent = 'None';
+                colorSelector.appendChild(non);
+                elment.forEach(item =>{
+                    const colorItem = document.createElement('option')
+                    colorItem.value = item.color;
+                    colorItem.textContent = item.color;
+                    colorSelector.appendChild(colorItem);
+                });
+                
+            }).catch(error => console.error(error))
+    }
+    colorOptions();
+
     function filterData() {
         console.log(sleevSelector, pantsSelector)
         const slev = sleevSelector.value
         const pnts = pantsSelector.value
-        const colr = colorSelector.value
         let url;
-        if (!slev && !pnts && !colr) {
+        if (!slev && !pnts) {
             url = `http://127.0.0.1:5000/api/${user}`;
         } else {
             const arg = new URLSearchParams();
@@ -35,16 +54,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 elmnt.forEach(itm => {
                     console.log("its a price of  ", user, itm.price)
                     if (itm.image_url !== null) {
+                        console.log('image urrl', itm.image_url)
                         const newItem = document.createElement('div')
                         newItem.innerHTML = `
-                        <div class="cards">
+                        <article class="cards">
                             <div class="card_image">
-                            <img src="${itm.image_url}"  width=800 height=1000>
+                                <img src="${itm.image_url}">
                             </div>
-                            <div>
-                            <p class="boold"><span>Price:</span>  ${itm.price}    $</p>
+                            <div class="text_image">
+                                <p class="boold">name</p>
+                                <p class="boold"><span>Price:</span>  ${itm.price}    $</p>
                             </div>
-                        </div>
+                        </article>
                         `
                         items.appendChild(newItem)
                     }

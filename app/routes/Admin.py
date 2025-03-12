@@ -4,6 +4,9 @@ Admin route to delete create and update products to database
 import base64
 import requests
 from flask import Blueprint, request, redirect, jsonify, current_app, flash
+import cv2
+from io import BytesIO
+from PIL import Image
 from ..models import Clothing, Top, Bottom
 from ..utils.helper import checkCorrectParameter
 from ..utils.decorator import role_required
@@ -115,7 +118,15 @@ def uploadImage(imageName):
     api_img = current_app.config['IMG_API_KEY']
     url ='https://api.imgbb.com/1/upload'
     imgFile = imageName.read()
-    image_base64 = base64.b64encode(imgFile).decode('ascii')
+
+    image = Image.open(BytesIO(imgFile))
+    target_size = (305, 420)  # Your card size
+    image = image.resize(target_size, Image.LANCZOS)
+    img_byte_arr = BytesIO()
+    image.save(img_byte_arr, format='WEBP')  # Save as JPEG (or any format you prefer)
+    img_byte_arr = img_byte_arr.getvalue()
+
+    image_base64 = base64.b64encode(img_byte_arr).decode('ascii')
     payload = {
         "key": api_img,
         "image": image_base64

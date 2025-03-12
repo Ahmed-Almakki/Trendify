@@ -51,7 +51,7 @@ def Wproduct():
 
             query = db.session.query(Clothing). \
                 join(Bottom, Bottom.clothing_id == Clothing.id, isouter=True)
-            for key, val in holder.items():
+            for key, val in holder:
                 val = request.args.get(key)
                 if hasattr(Clothing, key):
                     filter_list.append(getattr(Clothing, key) == val)
