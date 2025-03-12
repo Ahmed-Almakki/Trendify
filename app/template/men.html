@@ -26,17 +26,17 @@
                 <label for="sleeve">Sleeve</label>
                 <select name="sleeve" id="sleeve">
                     <option value="">None</option>
-                    <option value="short">Short</option>
-                    <option value="long">Long</option>
+                    <option value="Short">Short</option>
+                    <option value="Long">Long</option>
                 </select>
             </div>
             
             <div class="filter-group">
-                <label for="pants">Pants</label>
-                <select name="pants" id="pants">
+                <label for="length">Pants</label>
+                <select name="length" id="length">
                     <option value="">None</option>
-                    <option value="short">Short</option>
-                    <option value="long">Long</option>
+                    <option value="Short">Short</option>
+                    <option value="Long">Long</option>
                 </select>
             </div>
         
@@ -52,7 +52,7 @@
 
 {% block scrpt %}
     <script>
-        const user = 'men';
+        var user = 'men';
     </script>
     <script src="{{ url_for('static', filename='js/men.js') }}"></script>
 {% endblock %}

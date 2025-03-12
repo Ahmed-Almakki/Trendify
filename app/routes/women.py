@@ -22,14 +22,14 @@ def Wproduct():
     from app import db
     try:
 
-        if not request.is_json:
+        if not request.args.keys():
 
             all_product = Clothing.query.filter(Clothing.gender == 'women').all()
             result = [arg.to_dict() for arg in all_product]
             return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
 
-        elif checkCorrectParameter(list(request.get_json()), lst=["length", "sleeve", "color", "company", "gender"]):
-            holder = request.get_json(silent=True)
+        elif checkCorrectParameter(list(request.args.keys()), lst=["length", "sleeve", "color", "company", "gender"]):
+            holder = list(request.args.keys())
             query = db.session.query(Clothing)
             filter_list = [Clothing.gender != 'men']
 
@@ -38,7 +38,8 @@ def Wproduct():
                 query = query(Clothing). \
                     join(Top, Top.clothing_id == Clothing.id, isouter=True)
 
-                for key, val in holder.items():
+                for key in holder:
+                    val = request.args.get(key)
                     if hasattr(Clothing, key):
                         filter_list.append(getattr(Clothing, key) == val)
                     else:
@@ -51,6 +52,7 @@ def Wproduct():
             query = db.session.query(Clothing). \
                 join(Bottom, Bottom.clothing_id == Clothing.id, isouter=True)
             for key, val in holder.items():
+                val = request.args.get(key)
                 if hasattr(Clothing, key):
                     filter_list.append(getattr(Clothing, key) == val)
                 else:

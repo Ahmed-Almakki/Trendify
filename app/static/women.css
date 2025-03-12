@@ -2,12 +2,19 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-color: #FEF9E1;   /* Background */
+    --header-footer: #6D2323; /* Header & Footer */
+    --text-color: #A31D1D;  /* Text */
+    --accent-color: #E5D0AC; /* Accents */
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    background-color: #FAF3F3;
+    background-color: var(--bg-color);
 
 }
 
@@ -17,23 +24,26 @@ body {
     width: 100%;
     height: 10vh;
     position: fixed;
-    top: 0; 
+    top: 0;
+    border-bottom: 10px;
 }
 
 .logo {
-    width: 10%;  /* 10% because the other element take the remaining 90% */ 
+    width: 8%;
+    aspect-ratio: 1/ 1;
+    background-color: #6D2323;
 }
 
 #nav-bar {
     margin: auto;
-    width: 90%;
+    width: 92%;
     height: 100%;
     display: flex;   /* to make the element inside the nav-bar flex in row formate*/
     justify-content: space-evenly; /* to make space between the element of the flex*/
 }
 
 #nav-bar .line a {
-    color: #FAF3F3;
+    color: rgba(250, 247, 247, 0.967);
 }
 
 #nav-bar .line:last-child  a{
@@ -41,7 +51,7 @@ body {
 }
 
 .line {
-    background-color: #3E2C2C;
+    background-color: var(--header-footer);
     display: flex;     /* so you can center the links anchors <a>*/
     width: 100%;
     border-left: 1px solid black;
@@ -147,7 +157,7 @@ a {
 
 
 .footer-container {
-    background-color: #3E2C2C;
+    background-color: var(--header-footer);
     padding-top: 10px;
     display: grid;
     grid-template-columns: auto auto auto auto auto auto;

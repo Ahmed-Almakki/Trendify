@@ -39,8 +39,8 @@ def TopOrBottom(req) -> str:
     :return: top or bottom Model to use
     """
     lst = ["length", "sleeve"]
-    for i in req.keys():
+    for i in req:
         if i in lst:
             if i == "length":
-                return 'top'
-            return 'bottom'
+                return 'bottom'
+            return 'top'

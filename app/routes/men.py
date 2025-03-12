@@ -22,9 +22,8 @@ def filterProduct():
     """
     from app import db
     try:
-
         # check if the request contain a json if not show all the cloth relate to men
-        if not request.is_json:
+        if not request.args.keys():
 
             # query all the product relate to men
             all_product = Clothing.query.filter(Clothing.gender != 'women').all()
@@ -33,23 +32,20 @@ def filterProduct():
             # json .dumps because the result list contain dict which have unserizable objct
             return json.dumps(result, default=lambda x: list(x) if isinstance(x, tuple) else str(x), indent=2), 200
 
-        elif checkCorrectParameter(list(request.get_json()), lst=["length", "sleeve", "color", "company", "gender"]):
-            holder = request.get_json(silent=True)
+        elif checkCorrectParameter(list(request.args.keys()), lst=["length", "sleeve", "color", "company", "gender"]):
+            holder = list(request.args.keys())
             query = db.session.query(Clothing)
             filter_list = [Clothing.gender != 'women']
-
             if TopOrBottom(holder) == "top":
 
                 # query using Top and Clothing Models
                 query = query.\
                     join(Top, Top.clothing_id == Clothing.id, isouter=True)
-
                 # loop over all the dict
-                for key, val in holder.items():
-
+                for key in holder:
                     # check if one of the key belong to Clothing Model if so
+                    val = request.args.get(key)
                     if hasattr(Clothing, key):
-
                         # getattr(clothing, key) ==> Clothing.Length
                         # getattr(clothing, key) == val --> Clothing.Length == val (short)
                         # add the condition to filter list to filter it
@@ -64,7 +60,8 @@ def filterProduct():
             # query using the Bottom and Clothing Models
             query = db.session.query(Clothing). \
                 join(Bottom, Bottom.clothing_id == Clothing.id, isouter=True)
-            for key, val in holder.items():
+            for key in holder:
+                val = request.args.get(key)
                 if hasattr(Clothing, key):
                     filter_list.append(getattr(Clothing, key) == val)
                 else:
